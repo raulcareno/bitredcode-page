@@ -32,22 +32,24 @@
       background-color: #1e1e1e; /* Asegura que el fondo tenga el mismo color */
     }
 
-    /* Contenedor de las Líneas de Código */
-    .code-container {
+    /* Contenedor Interno para Animación Continua */
+    .code-inner {
       display: flex;
       flex-direction: column;
-      animation: scrollUp 20s linear infinite;
+      animation: scrollUp 10s linear infinite;
     }
 
     /* Estilos de las Líneas de Código */
     .code-line {
-      white-space: nowrap;
+      color: white;
+      opacity: 0.8; /* Opacidad ajustada al 0.8 */
       font-size: 16px;
-      color: #33ff33; /* Verde brillante para resaltar */
-      margin: 2px 0; /* Espacio entre líneas */
+      line-height: 1.5;
+      white-space: nowrap;
+      padding: 2px 20px;
     }
 
-    /* Animación para Desplazar el Contenedor hacia Arriba */
+    /* Animación para Mover las Líneas de Código hacia Arriba */
     @keyframes scrollUp {
       0% {
         transform: translateY(0);
@@ -84,8 +86,8 @@
 </head>
 <body>
   <!-- Fondo de Código -->
-  <div class="code-background">
-    <div class="code-container" id="codeContainer">
+  <div class="code-background" id="codeBackground">
+    <div class="code-inner" id="codeInner">
       <!-- Las líneas de código se generarán aquí mediante JavaScript -->
     </div>
   </div>
@@ -93,11 +95,11 @@
   <!-- Contenido Principal -->
   <div class="logo">
     <svg width="500" height="100" xmlns="http://www.w3.org/2000/svg">
-      <!-- Texto "bitredcode" con un grosor intermedio (semi-bold) -->
-      <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="#33ff33" font-weight="600">bitredcode</text>
+      <!-- Texto "bitredcode" en blanco -->
+      <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="#ffffff" font-weight="600">bitredcode</text>
       
       <!-- Triángulo animado, rotado, escalado y posicionado en la parte superior de la letra "b" -->
-      <polygon id="blinking-triangle" points="20,10 40,50 0,50" fill="#33ff33"
+      <polygon id="blinking-triangle" points="20,10 40,50 0,50" fill="#ffffff"
         transform="rotate(90, 20, 30) scale(0.4) translate(50, -25)" />
       
       <!-- Animación de parpadeo -->
@@ -116,7 +118,7 @@
 
   <!-- JavaScript para Generar Líneas de Código -->
   <script>
-    const codeContainer = document.getElementById('codeContainer');
+    const codeInner = document.getElementById('codeInner');
     const codeSamples = [
       "function iniciar() {",
       "  console.log('Iniciando BitRedCode...');",
@@ -182,43 +184,43 @@
     ];
 
     // Función para Generar una Línea de Código
-    function generarLineaCodigo(codigo) {
-      const line = document.createElement('div');
-      line.classList.add('code-line');
-      line.textContent = codigo;
-      return line;
+    function generarLineaCodigo(linea) {
+      const div = document.createElement('div');
+      div.classList.add('code-line');
+      div.textContent = linea;
+      return div;
     }
 
-    // Generar las Líneas de Código Iniciales
-    function generarCodigoInicial() {
-      codeSamples.forEach(codigo => {
-        if (codigo.trim() !== "") {
-          const line = generarLineaCodigo(codigo);
-          codeContainer.appendChild(line);
+    // Añadir líneas de código al contenedor
+    function cargarLineasCodigo() {
+      codeSamples.forEach(linea => {
+        if (linea.trim() === "") {
+          const br = document.createElement('br');
+          codeInner.appendChild(br);
         } else {
-          const emptyLine = document.createElement('div');
-          emptyLine.classList.add('code-line');
-          emptyLine.innerHTML = '&nbsp;'; // Línea vacía para espaciamiento
-          codeContainer.appendChild(emptyLine);
-        }
-      });
-
-      // Duplicar las líneas de código para crear un bucle infinito
-      codeSamples.forEach(codigo => {
-        if (codigo.trim() !== "") {
-          const line = generarLineaCodigo(codigo);
-          codeContainer.appendChild(line);
-        } else {
-          const emptyLine = document.createElement('div');
-          emptyLine.classList.add('code-line');
-          emptyLine.innerHTML = '&nbsp;';
-          codeContainer.appendChild(emptyLine);
+          const lineaDiv = generarLineaCodigo(linea);
+          codeInner.appendChild(lineaDiv);
         }
       });
     }
 
-    // Inicializar las Líneas de Código
-    generarCodigoInicial();
+    // Cargar las líneas de código dos veces para crear un bucle infinito
+    cargarLineasCodigo();
+    cargarLineasCodigo();
+
+    // Opcional: Actualizar las líneas de código periódicamente si deseas agregar nuevas
+    /*
+    setInterval(() => {
+      // Remover la primera línea
+      if (codeInner.firstChild) {
+        codeInner.removeChild(codeInner.firstChild);
+      }
+      // Añadir una nueva línea al final
+      const nuevaLinea = codeSamples[Math.floor(Math.random() * codeSamples.length)];
+      const lineaDiv = generarLineaCodigo(nuevaLinea);
+      codeInner.appendChild(lineaDiv);
+    }, 10000); // Cada 10 segundos
+    */
   </script>
 </body>
 </html>
