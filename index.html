@@ -73,6 +73,10 @@
       max-width: 100%; /* Asegura que el logo no exceda el ancho del contenedor */
     }
 
+    .logo.enlarged {
+      width: 1000px; /* 500px * 2 = 1000px */
+    }
+
     .logo svg {
       width: 100%; /* Hace que el SVG ocupe el 100% del contenedor .logo */
       height: auto;
@@ -94,8 +98,8 @@
         height: 60%;
       }
 
-      .logo {
-        width: 400px; /* Ajuste para pantallas medianas */
+      .logo.enlarged {
+        width: 800px; /* 400px * 2 = 800px */
       }
 
       p {
@@ -115,31 +119,13 @@
         padding: 1px 10px;
       }
 
-      .logo {
-        width: 300px; /* Ajuste para pantallas pequeñas */
+      .logo.enlarged {
+        width: 600px; /* 300px * 2 = 600px */
       }
 
       p {
         font-size: 0.9rem;
         max-width: 95%;
-      }
-    }
-
-    /* Agrandar el logo al 200% */
-    .logo.enlarged {
-      width: 1000px; /* 500px * 2 = 1000px */
-    }
-
-    /* Ajustes para dispositivos móviles al agrandar */
-    @media (max-width: 768px) {
-      .logo.enlarged {
-        width: 800px; /* 400px * 2 = 800px */
-      }
-    }
-
-    @media (max-width: 480px) {
-      .logo.enlarged {
-        width: 600px; /* 300px * 2 = 600px */
       }
     }
   </style>
