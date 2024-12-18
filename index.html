@@ -5,39 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BitRedCode</title>
   <style>
+    /* Estilos Generales */
     body {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
+      background-color: #1e1e1e; /* Color de fondo oscuro para mejor contraste */
+      font-family: 'Courier New', Courier, monospace; /* Fuente monoespaciada para efecto de código */
+      overflow: hidden; /* Oculta cualquier desbordamiento del contenido */
+      color: white; /* Color del texto principal */
     }
+
+    /* Contenedor del Fondo de Código */
+    .code-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1; /* Coloca el fondo detrás del contenido principal */
+      background-color: #1e1e1e; /* Asegura que el fondo tenga el mismo color */
+    }
+
+    /* Estilos de las Líneas de Código */
+    .code-line {
+      position: absolute;
+      width: 100%;
+      white-space: nowrap;
+      font-size: 16px;
+      opacity: 0.05; /* Baja opacidad para que no interfiera con el contenido principal */
+      animation: moveUp 10s linear infinite;
+    }
+
+    /* Animación para Mover las Líneas de Código hacia Arriba */
+    @keyframes moveUp {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(-100%);
+      }
+    }
+
+    /* Estilos del Contenido Principal */
     .logo {
       margin-bottom: 20px;
     }
+
     h1 {
-      color: #333;
+      color: #33ff33; /* Verde brillante para resaltar */
       text-align: center;
+      z-index: 1;
     }
-    .centrado {
+
+    p {
       text-align: center;
       max-width: 600px;
       margin: 0 20px;
-      color: #555;
+      color: #dddddd;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
+  <!-- Fondo de Código -->
+  <div class="code-background" id="codeBackground">
+    <!-- Las líneas de código se generarán aquí mediante JavaScript -->
+  </div>
+
+  <!-- Contenido Principal -->
   <div class="logo">
     <svg width="500" height="100" xmlns="http://www.w3.org/2000/svg">
       <!-- Texto "bitredcode" con un grosor intermedio (semi-bold) -->
-      <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="black" font-weight="600">bitredcode</text>
+      <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="#33ff33" font-weight="600">bitredcode</text>
       
       <!-- Triángulo animado, rotado, escalado y posicionado en la parte superior de la letra "b" -->
-      <polygon id="blinking-triangle" points="20,10 40,50 0,50" fill="black"
+      <polygon id="blinking-triangle" points="20,10 40,50 0,50" fill="#33ff33"
         transform="rotate(90, 20, 30) scale(0.4) translate(50, -25)" />
       
       <!-- Animación de parpadeo -->
@@ -49,6 +97,94 @@
         repeatCount="indefinite" />
     </svg>
   </div>
-  <p class="centrado">Tu plataforma para soluciones innovadoras.</p>
+  <h1>Bienvenido a BitRedCode</h1>
+  <p>Tu plataforma para soluciones innovadoras.</p>
+
+  <!-- JavaScript para Generar Líneas de Código -->
+  <script>
+    const codeBackground = document.getElementById('codeBackground');
+    const numLines = 50; // Número de líneas de código a generar
+    const codeSamples = [
+      "function iniciar() {",
+      "  console.log('Iniciando BitRedCode...');",
+      "}",
+      "",
+      "const usuario = {",
+      "  nombre: 'Juan',",
+      "  rol: 'Desarrollador',",
+      "};",
+      "",
+      "if (usuario.rol === 'Desarrollador') {",
+      "  iniciar();",
+      "}",
+      "",
+      "// Fin del script",
+      "for (let i = 0; i < 10; i++) {",
+      "  console.log(i);",
+      "}",
+      "",
+      "let resultado = sumar(5, 3);",
+      "function sumar(a, b) {",
+      "  return a + b;",
+      "}",
+      "",
+      "class Proyecto {",
+      "  constructor(nombre) {",
+      "    this.nombre = nombre;",
+      "  }",
+      "}",
+      "",
+      "const proyecto = new Proyecto('BitRedCode');",
+      "console.log(proyecto.nombre);",
+      "",
+      "try {",
+      "  // Intentar algo",
+      "} catch (error) {",
+      "  console.error(error);",
+      "}",
+      "",
+      "const lista = [1, 2, 3, 4, 5];",
+      "lista.forEach(item => {",
+      "  console.log(item);",
+      "});",
+      "",
+      "const saludo = '¡Hola Mundo!';",
+      "console.log(saludo);",
+      "",
+      "// Agrega más líneas de código según sea necesario"
+    ];
+
+    // Función para Generar una Línea de Código Aleatoria
+    function generarLineaCodigo() {
+      const line = document.createElement('div');
+      line.classList.add('code-line');
+      // Seleccionar una línea de código aleatoria
+      const codigo = codeSamples[Math.floor(Math.random() * codeSamples.length)];
+      line.textContent = codigo;
+      // Posicionar la línea en una posición vertical aleatoria
+      line.style.top = `${Math.random() * 100}%`;
+      // Ajustar la velocidad de animación de manera aleatoria
+      const duration = 5 + Math.random() * 10; // Entre 5s y 15s
+      line.style.animationDuration = `${duration}s`;
+      // Añadir una ligera demora para el inicio de la animación
+      line.style.animationDelay = `-${Math.random() * duration}s`;
+      codeBackground.appendChild(line);
+    }
+
+    // Generar las Líneas de Código al Cargar la Página
+    for (let i = 0; i < numLines; i++) {
+      generarLineaCodigo();
+    }
+
+    // Opcional: Actualizar las líneas de código periódicamente
+    setInterval(() => {
+      // Remover una línea antigua
+      if (codeBackground.firstChild) {
+        codeBackground.removeChild(codeBackground.firstChild);
+      }
+      // Añadir una nueva línea
+      generarLineaCodigo();
+    }, 5000); // Cada 5 segundos
+  </script>
 </body>
 </html>
