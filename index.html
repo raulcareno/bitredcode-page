@@ -32,23 +32,28 @@
       background-color: #1e1e1e; /* Asegura que el fondo tenga el mismo color */
     }
 
-    /* Estilos de las Líneas de Código */
-    .code-line {
-      position: absolute;
-      width: 100%;
-      white-space: nowrap;
-      font-size: 16px;
-      opacity: 0.1; /* Aumenta ligeramente la opacidad para mejor visibilidad */
-      animation: moveUp 7s linear infinite; /* Reduce la duración para acelerar la animación */
+    /* Contenedor de las Líneas de Código */
+    .code-container {
+      display: flex;
+      flex-direction: column;
+      animation: scrollUp 20s linear infinite;
     }
 
-    /* Animación para Mover las Líneas de Código hacia Arriba */
-    @keyframes moveUp {
-      from {
-        transform: translateY(100%);
+    /* Estilos de las Líneas de Código */
+    .code-line {
+      white-space: nowrap;
+      font-size: 16px;
+      color: #33ff33; /* Verde brillante para resaltar */
+      margin: 2px 0; /* Espacio entre líneas */
+    }
+
+    /* Animación para Desplazar el Contenedor hacia Arriba */
+    @keyframes scrollUp {
+      0% {
+        transform: translateY(0);
       }
-      to {
-        transform: translateY(-100%);
+      100% {
+        transform: translateY(-50%);
       }
     }
 
@@ -79,8 +84,10 @@
 </head>
 <body>
   <!-- Fondo de Código -->
-  <div class="code-background" id="codeBackground">
-    <!-- Las líneas de código se generarán aquí mediante JavaScript -->
+  <div class="code-background">
+    <div class="code-container" id="codeContainer">
+      <!-- Las líneas de código se generarán aquí mediante JavaScript -->
+    </div>
   </div>
 
   <!-- Contenido Principal -->
@@ -109,8 +116,7 @@
 
   <!-- JavaScript para Generar Líneas de Código -->
   <script>
-    const codeBackground = document.getElementById('codeBackground');
-    const numLines = 60; // Aumenta el número de líneas para mayor densidad
+    const codeContainer = document.getElementById('codeContainer');
     const codeSamples = [
       "function iniciar() {",
       "  console.log('Iniciando BitRedCode...');",
@@ -175,38 +181,44 @@
       "console.log(multiplicar(4, 5));"
     ];
 
-    // Función para Generar una Línea de Código Aleatoria
-    function generarLineaCodigo() {
+    // Función para Generar una Línea de Código
+    function generarLineaCodigo(codigo) {
       const line = document.createElement('div');
       line.classList.add('code-line');
-      // Seleccionar una línea de código aleatoria
-      const codigo = codeSamples[Math.floor(Math.random() * codeSamples.length)];
       line.textContent = codigo;
-      // Posicionar la línea en una posición vertical aleatoria dentro del 50% asignado
-      line.style.top = `${Math.random() * 100}%`;
-      // Ajustar la velocidad de animación de manera aleatoria (más rápida)
-      const duration = 4 + Math.random() * 6; // Entre 4s y 10s
-      line.style.animationDuration = `${duration}s`;
-      // Añadir una ligera demora para el inicio de la animación
-      line.style.animationDelay = `-${Math.random() * duration}s`;
-      // Ajustar el tamaño y color si es necesario
-      codeBackground.appendChild(line);
+      return line;
     }
 
-    // Generar las Líneas de Código al Cargar la Página
-    for (let i = 0; i < numLines; i++) {
-      generarLineaCodigo();
+    // Generar las Líneas de Código Iniciales
+    function generarCodigoInicial() {
+      codeSamples.forEach(codigo => {
+        if (codigo.trim() !== "") {
+          const line = generarLineaCodigo(codigo);
+          codeContainer.appendChild(line);
+        } else {
+          const emptyLine = document.createElement('div');
+          emptyLine.classList.add('code-line');
+          emptyLine.innerHTML = '&nbsp;'; // Línea vacía para espaciamiento
+          codeContainer.appendChild(emptyLine);
+        }
+      });
+
+      // Duplicar las líneas de código para crear un bucle infinito
+      codeSamples.forEach(codigo => {
+        if (codigo.trim() !== "") {
+          const line = generarLineaCodigo(codigo);
+          codeContainer.appendChild(line);
+        } else {
+          const emptyLine = document.createElement('div');
+          emptyLine.classList.add('code-line');
+          emptyLine.innerHTML = '&nbsp;';
+          codeContainer.appendChild(emptyLine);
+        }
+      });
     }
 
-    // Opcional: Actualizar las líneas de código periódicamente
-    setInterval(() => {
-      // Remover una línea antigua
-      if (codeBackground.firstChild) {
-        codeBackground.removeChild(codeBackground.firstChild);
-      }
-      // Añadir una nueva línea
-      generarLineaCodigo();
-    }, 3000); // Cada 3 segundos para mayor dinamismo
+    // Inicializar las Líneas de Código
+    generarCodigoInicial();
   </script>
 </body>
 </html>
