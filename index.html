@@ -23,10 +23,10 @@
     /* Contenedor del Fondo de Código */
     .code-background {
       position: absolute;
-      top: 0;
+      top: 25%; /* Inicia a un 25% desde la parte superior para ocupar el 50% de la página */
       left: 0;
       width: 100%;
-      height: 100%;
+      height: 50%; /* Ocupa el 50% de la altura de la página */
       overflow: hidden;
       z-index: -1; /* Coloca el fondo detrás del contenido principal */
       background-color: #1e1e1e; /* Asegura que el fondo tenga el mismo color */
@@ -38,8 +38,8 @@
       width: 100%;
       white-space: nowrap;
       font-size: 16px;
-      opacity: 0.05; /* Baja opacidad para que no interfiera con el contenido principal */
-      animation: moveUp 10s linear infinite;
+      opacity: 0.1; /* Aumenta ligeramente la opacidad para mejor visibilidad */
+      animation: moveUp 7s linear infinite; /* Reduce la duración para acelerar la animación */
     }
 
     /* Animación para Mover las Líneas de Código hacia Arriba */
@@ -55,12 +55,7 @@
     /* Estilos del Contenido Principal */
     .logo {
       margin-bottom: 20px;
-    }
-
-    h1 {
-      color: #33ff33; /* Verde brillante para resaltar */
-      text-align: center;
-      z-index: 1;
+      z-index: 1; /* Asegura que el logo esté por encima del fondo */
     }
 
     p {
@@ -69,6 +64,16 @@
       margin: 0 20px;
       color: #dddddd;
       z-index: 1;
+    }
+
+    /* Responsividad para Dispositivos Móviles */
+    @media (max-width: 600px) {
+      .code-line {
+        font-size: 14px;
+      }
+      p {
+        max-width: 90%;
+      }
     }
   </style>
 </head>
@@ -97,13 +102,15 @@
         repeatCount="indefinite" />
     </svg>
   </div>
-  <h1>Bienvenido a BitRedCode</h1>
+  
+  <!-- Título Eliminado -->
+  
   <p>Tu plataforma para soluciones innovadoras.</p>
 
   <!-- JavaScript para Generar Líneas de Código -->
   <script>
     const codeBackground = document.getElementById('codeBackground');
-    const numLines = 50; // Número de líneas de código a generar
+    const numLines = 60; // Aumenta el número de líneas para mayor densidad
     const codeSamples = [
       "function iniciar() {",
       "  console.log('Iniciando BitRedCode...');",
@@ -151,7 +158,21 @@
       "const saludo = '¡Hola Mundo!';",
       "console.log(saludo);",
       "",
-      "// Agrega más líneas de código según sea necesario"
+      "// Agrega más líneas de código según sea necesario",
+      "const fecha = new Date();",
+      "console.log(`Fecha actual: ${fecha}`);",
+      "const apiUrl = 'https://api.bitredcode.com';",
+      "fetch(apiUrl)",
+      "  .then(response => response.json())",
+      "  .then(data => console.log(data));",
+      "",
+      "const numero = 42;",
+      "console.log(`El número es: ${numero}`);",
+      "const esActivo = true;",
+      "console.log(`Estado activo: ${esActivo}`);",
+      "",
+      "const multiplicar = (a, b) => a * b;",
+      "console.log(multiplicar(4, 5));"
     ];
 
     // Función para Generar una Línea de Código Aleatoria
@@ -161,13 +182,14 @@
       // Seleccionar una línea de código aleatoria
       const codigo = codeSamples[Math.floor(Math.random() * codeSamples.length)];
       line.textContent = codigo;
-      // Posicionar la línea en una posición vertical aleatoria
+      // Posicionar la línea en una posición vertical aleatoria dentro del 50% asignado
       line.style.top = `${Math.random() * 100}%`;
-      // Ajustar la velocidad de animación de manera aleatoria
-      const duration = 5 + Math.random() * 10; // Entre 5s y 15s
+      // Ajustar la velocidad de animación de manera aleatoria (más rápida)
+      const duration = 4 + Math.random() * 6; // Entre 4s y 10s
       line.style.animationDuration = `${duration}s`;
       // Añadir una ligera demora para el inicio de la animación
       line.style.animationDelay = `-${Math.random() * duration}s`;
+      // Ajustar el tamaño y color si es necesario
       codeBackground.appendChild(line);
     }
 
@@ -184,7 +206,7 @@
       }
       // Añadir una nueva línea
       generarLineaCodigo();
-    }, 5000); // Cada 5 segundos
+    }, 3000); // Cada 3 segundos para mayor dinamismo
   </script>
 </body>
 </html>
