@@ -23,7 +23,7 @@
     /* Contenedor del Fondo de Código */
     .code-background {
       position: absolute;
-      top: 25%; /* Inicia a un 25% desde la parte superior para ocupar el 50% de la página */
+      top: 25%; /* Inicia a un 25% desde la parte superior */
       left: 0;
       width: 100%;
       height: 50%; /* Ocupa el 50% de la altura de la página */
@@ -32,22 +32,24 @@
       background-color: #1e1e1e; /* Asegura que el fondo tenga el mismo color */
     }
 
-    /* Contenedor de las Líneas de Código */
+    /* Contenedor de Líneas de Código */
     .code-container {
       display: flex;
       flex-direction: column;
-      animation: scrollUp 20s linear infinite;
+      align-items: flex-start;
+      animation: scrollUp linear infinite;
     }
 
     /* Estilos de las Líneas de Código */
     .code-line {
-      white-space: nowrap;
+      color: rgba(255, 255, 255, 0.8); /* Blanco con opacidad 0.8 */
       font-size: 16px;
-      color: #33ff33; /* Verde brillante para resaltar */
-      margin: 2px 0; /* Espacio entre líneas */
+      line-height: 1.5;
+      white-space: nowrap;
+      padding: 2px 20px; /* Espaciado interno para mejor legibilidad */
     }
 
-    /* Animación para Desplazar el Contenedor hacia Arriba */
+    /* Animación para Desplazar las Líneas de Código hacia Arriba */
     @keyframes scrollUp {
       0% {
         transform: translateY(0);
@@ -57,12 +59,28 @@
       }
     }
 
+    /* Duplicar el Contenedor para Efecto de Bucle */
+    .code-container.duplicate {
+      animation-delay: 0s; /* Sin retraso para la segunda copia */
+    }
+
     /* Estilos del Contenido Principal */
     .logo {
       margin-bottom: 20px;
       z-index: 1; /* Asegura que el logo esté por encima del fondo */
     }
 
+    /* Estilo del Texto "bitredcode" en Blanco */
+    .logo text {
+      fill: white; /* Cambia el color del texto a blanco */
+    }
+
+    /* Estilo del Triángulo en Blanco */
+    .logo polygon {
+      fill: white; /* Cambia el color del triángulo a blanco */
+    }
+
+    /* Estilos del Párrafo */
     p {
       text-align: center;
       max-width: 600px;
@@ -88,16 +106,19 @@
     <div class="code-container" id="codeContainer">
       <!-- Las líneas de código se generarán aquí mediante JavaScript -->
     </div>
+    <div class="code-container duplicate" id="codeContainerDuplicate">
+      <!-- Copia de las líneas de código para efecto de bucle -->
+    </div>
   </div>
 
   <!-- Contenido Principal -->
   <div class="logo">
     <svg width="500" height="100" xmlns="http://www.w3.org/2000/svg">
-      <!-- Texto "bitredcode" con un grosor intermedio (semi-bold) -->
-      <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="#33ff33" font-weight="600">bitredcode</text>
+      <!-- Texto "bitredcode" en blanco -->
+      <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" font-weight="600">bitredcode</text>
       
       <!-- Triángulo animado, rotado, escalado y posicionado en la parte superior de la letra "b" -->
-      <polygon id="blinking-triangle" points="20,10 40,50 0,50" fill="#33ff33"
+      <polygon id="blinking-triangle" points="20,10 40,50 0,50"
         transform="rotate(90, 20, 30) scale(0.4) translate(50, -25)" />
       
       <!-- Animación de parpadeo -->
@@ -110,13 +131,13 @@
     </svg>
   </div>
   
-  <!-- Título Eliminado -->
-  
+  <!-- Párrafo Descriptivo -->
   <p>Tu plataforma para soluciones innovadoras.</p>
 
   <!-- JavaScript para Generar Líneas de Código -->
   <script>
     const codeContainer = document.getElementById('codeContainer');
+    const codeContainerDuplicate = document.getElementById('codeContainerDuplicate');
     const codeSamples = [
       "function iniciar() {",
       "  console.log('Iniciando BitRedCode...');",
@@ -189,36 +210,38 @@
       return line;
     }
 
-    // Generar las Líneas de Código Iniciales
-    function generarCodigoInicial() {
+    // Función para Llenar el Contenedor con Líneas de Código
+    function llenarContenedor(container) {
       codeSamples.forEach(codigo => {
-        if (codigo.trim() !== "") {
-          const line = generarLineaCodigo(codigo);
-          codeContainer.appendChild(line);
-        } else {
-          const emptyLine = document.createElement('div');
-          emptyLine.classList.add('code-line');
-          emptyLine.innerHTML = '&nbsp;'; // Línea vacía para espaciamiento
-          codeContainer.appendChild(emptyLine);
-        }
-      });
-
-      // Duplicar las líneas de código para crear un bucle infinito
-      codeSamples.forEach(codigo => {
-        if (codigo.trim() !== "") {
-          const line = generarLineaCodigo(codigo);
-          codeContainer.appendChild(line);
-        } else {
-          const emptyLine = document.createElement('div');
-          emptyLine.classList.add('code-line');
-          emptyLine.innerHTML = '&nbsp;';
-          codeContainer.appendChild(emptyLine);
-        }
+        const linea = generarLineaCodigo(codigo);
+        container.appendChild(linea);
       });
     }
 
-    // Inicializar las Líneas de Código
-    generarCodigoInicial();
+    // Llenar ambos contenedores
+    llenarContenedor(codeContainer);
+    llenarContenedor(codeContainerDuplicate);
+
+    // Ajustar la altura de la animación en base al número de líneas
+    const totalLines = codeSamples.length;
+    const lineHeight = 24; // Altura de línea en píxeles (ajustar según font-size y line-height)
+    const animationDuration = totalLines * 1.5; // Duración basada en número de líneas
+
+    // Aplicar la duración de la animación
+    document.styleSheets[0].insertRule(`@keyframes scrollUp {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-${(totalLines / 2) * lineHeight}px);
+      }
+    }`, document.styleSheets[0].cssRules.length);
+
+    // Actualizar la duración de la animación
+    const codeContainers = document.querySelectorAll('.code-container');
+    codeContainers.forEach(container => {
+      container.style.animationDuration = `${animationDuration}s`;
+    });
   </script>
 </body>
 </html>
