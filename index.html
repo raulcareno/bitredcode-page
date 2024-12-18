@@ -12,7 +12,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       background-color: #1e1e1e; /* Color de fondo oscuro para mejor contraste */
       font-family: 'Courier New', Courier, monospace; /* Fuente monoespaciada para efecto de código */
@@ -63,6 +63,13 @@
     .logo {
       margin-bottom: 20px;
       z-index: 1; /* Asegura que el logo esté por encima del fondo */
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .logo svg {
+      width: 100%;
+      height: auto;
     }
 
     p {
@@ -71,15 +78,45 @@
       margin: 0 20px;
       color: #dddddd;
       z-index: 1;
+      font-size: 1.2rem;
+      line-height: 1.5;
     }
 
     /* Responsividad para Dispositivos Móviles */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .logo {
+        max-width: 400px;
+      }
+
+      .code-background {
+        top: 20%;
+        height: 60%;
+      }
+
+      p {
+        font-size: 1rem;
+        max-width: 90%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        max-width: 300px;
+      }
+
+      .code-background {
+        top: 15%;
+        height: 70%;
+      }
+
       .code-line {
         font-size: 14px;
+        padding: 1px 10px;
       }
+
       p {
-        max-width: 90%;
+        font-size: 0.9rem;
+        max-width: 95%;
       }
     }
   </style>
@@ -94,7 +131,7 @@
 
   <!-- Contenido Principal -->
   <div class="logo">
-    <svg width="500" height="100" xmlns="http://www.w3.org/2000/svg">
+    <svg width="500" height="100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 100" preserveAspectRatio="xMidYMid meet">
       <!-- Texto "bitredcode" en blanco -->
       <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="#ffffff" font-weight="600">bitredcode</text>
       
