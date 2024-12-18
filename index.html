@@ -59,11 +59,6 @@
       }
     }
 
-    /* Duplicar el Contenedor para Efecto de Bucle */
-    .code-container.duplicate {
-      animation-delay: 0s; /* Sin retraso para la segunda copia */
-    }
-
     /* Estilos del Contenido Principal */
     .logo {
       margin-bottom: 20px;
@@ -225,7 +220,7 @@
     // Ajustar la altura de la animación en base al número de líneas
     const totalLines = codeSamples.length;
     const lineHeight = 24; // Altura de línea en píxeles (ajustar según font-size y line-height)
-    const animationDuration = totalLines * 1.5; // Duración basada en número de líneas
+    const animationDuration = totalLines * 0.75; // Reducir el factor para aumentar la velocidad
 
     // Aplicar la duración de la animación
     document.styleSheets[0].insertRule(`@keyframes scrollUp {
