@@ -60,19 +60,21 @@
     }
 
     /* Estilos del Contenido Principal */
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1; /* Asegura que el contenido esté por encima del fondo */
+    }
+
     .logo {
       margin-bottom: 20px;
-      z-index: 1; /* Asegura que el logo esté por encima del fondo */
-      /* Eliminamos width y max-width para usar transform: scale */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transform: scale(2); /* Escala al 200% */
-      transform-origin: center; /* Centra la transformación */
+      width: 500px; /* Tamaño original del SVG */
+      max-width: 100%; /* Asegura que el logo no exceda el ancho del contenedor */
     }
 
     .logo svg {
-      width: 100%;
+      width: 100%; /* Hace que el SVG ocupe el 100% del contenedor .logo */
       height: auto;
     }
 
@@ -81,7 +83,6 @@
       max-width: 600px;
       margin: 0 20px;
       color: #dddddd;
-      z-index: 1;
       font-size: 1.2rem;
       line-height: 1.5;
     }
@@ -91,6 +92,10 @@
       .code-background {
         top: 20%;
         height: 60%;
+      }
+
+      .logo {
+        width: 400px; /* Ajuste para pantallas medianas */
       }
 
       p {
@@ -110,9 +115,31 @@
         padding: 1px 10px;
       }
 
+      .logo {
+        width: 300px; /* Ajuste para pantallas pequeñas */
+      }
+
       p {
         font-size: 0.9rem;
         max-width: 95%;
+      }
+    }
+
+    /* Agrandar el logo al 200% */
+    .logo.enlarged {
+      width: 1000px; /* 500px * 2 = 1000px */
+    }
+
+    /* Ajustes para dispositivos móviles al agrandar */
+    @media (max-width: 768px) {
+      .logo.enlarged {
+        width: 800px; /* 400px * 2 = 800px */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo.enlarged {
+        width: 600px; /* 300px * 2 = 600px */
       }
     }
   </style>
@@ -126,26 +153,28 @@
   </div>
 
   <!-- Contenido Principal -->
-  <div class="logo">
-    <svg width="500" height="100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 100" preserveAspectRatio="xMidYMid meet">
-      <!-- Texto "bitredcode" en blanco -->
-      <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="#ffffff" font-weight="600">bitredcode</text>
-      
-      <!-- Triángulo animado, rotado, escalado y posicionado en la parte superior de la letra "b" -->
-      <polygon id="blinking-triangle" points="20,10 40,50 0,50" fill="#ffffff"
-        transform="rotate(90, 20, 30) scale(0.4) translate(50, -25)" />
-      
-      <!-- Animación de parpadeo -->
-      <animate
-        xlink:href="#blinking-triangle"
-        attributeName="opacity"
-        values="1;0;1"
-        dur="1s"
-        repeatCount="indefinite" />
-    </svg>
+  <div class="content">
+    <div class="logo enlarged"> <!-- Añadimos la clase 'enlarged' para agrandar el logo -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 100" preserveAspectRatio="xMidYMid meet">
+        <!-- Texto "bitredcode" en blanco -->
+        <text x="60" y="60" font-family="Arial, sans-serif" font-size="40" fill="#ffffff" font-weight="600">bitredcode</text>
+        
+        <!-- Triángulo animado, rotado, escalado y posicionado en la parte superior de la letra "b" -->
+        <polygon id="blinking-triangle" points="20,10 40,50 0,50" fill="#ffffff"
+          transform="rotate(90, 20, 30) scale(0.4) translate(50, -25)" />
+        
+        <!-- Animación de parpadeo -->
+        <animate
+          xlink:href="#blinking-triangle"
+          attributeName="opacity"
+          values="1;0;1"
+          dur="1s"
+          repeatCount="indefinite" />
+      </svg>
+    </div>
+    
+    <p>Tu plataforma para soluciones innovadoras.</p>
   </div>
-  
-  <p>Tu plataforma para soluciones innovadoras.</p>
 
   <!-- JavaScript para Generar Líneas de Código -->
   <script>
